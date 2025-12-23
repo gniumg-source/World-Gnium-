@@ -1,0 +1,33 @@
+= Spring AI RAG Advisors
+
+Repository that showcases a variety of examples using Spring AI's advisors for GraphRAG (retrieval augmented generation with a graph database) with Neo4j.
+
+The Neo4j database is a public, read-only instance that is ready-to-use and accessible for everyone.
+
+== Sample requests
+
+[source, shell]
+----
+http ":8080/qa?query=I want to challenge my mind and would like to read something about technology"
+
+http ":8080/retrievalAdvisor?query=I want to challenge my mind and would like to read something about technology"
+
+http ":8080/preTransform?query=I am feeling a bit sad and overwhelmed by the chaos of daily life, so I'd like to read something about personal growth and small town living"
+#see how regular advisor factors in the "miscellaneous" details to vector search
+http ":8080/retrievalAdvisor?query=I am feeling a bit sad and overwhelmed by the chaos of daily life, so I'd like to read something about personal growth and small town living"
+
+http ":8080/retrieveFilter?query=I am looking for a relaxing and easy read for a mountain vacation"
+
+http ":8080/retrieveJoin?query=I'd like to read something about personal growth and small town living"
+http ":8080/retrieveJoin?query=I want to challenge my mind and would like to read something about technology"
+
+http ":8080/retrieveAugment?query=I want to challenge my mind and would like to read something about technology"
+----
+
+== Resources
+
+* Site: https://dev.neo4j.com/aura-java[Neo4j Aura^]
+* Documentation: https://docs.spring.io/spring-ai/reference/api/advisors.html[Spring AI advisor API^] and https://docs.spring.io/spring-ai/reference/api/retrieval-augmented-generation.html[Spring AI RAG advisors^]
+* Documentation: https://docs.spring.io/spring-ai/reference/api/vectordbs/neo4j.html[Spring AI Neo4j Vector Store^]
+* Guide: https://neo4j.com/labs/genai-ecosystem/spring-ai[Spring AI Neo4j^]
+* Online training: https://graphacademy.neo4j.com/categories/llms/[GraphAcademy LLM courses^]
