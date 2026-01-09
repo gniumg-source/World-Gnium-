@@ -1,0 +1,43 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# This workflow file requires a free account on Bearer.com to manage findings, notifications and more.
+# See https://docs.bearer.com/guides/bearer-cloud/
+nombre : Portador
+
+en :
+  empujar :
+    ramas : [ "principal"  ]
+  solicitud_de_extracción :
+    # Las ramas a continuación deben ser un subconjunto de las ramas anteriores
+    ramas : [ "principal" ]
+  cronograma :
+    - cron : '32 5 * * 2'32 5 * * 2'
+
+permisos :
+  Contenido : leer # para acciones/verificar para obtener el código
+  security-events : escribe # para github/codeql-action/upload-sarif para cargar los resultados de SARIF
+  acciones : lectura # solo requerida para un repositorio privado por github/codeql-action/upload-sarif para obtener el estado de ejecución de la acción
+
+trabajos :
+  portador :
+    se ejecuta en : ubuntu-latest
+    pasos :
+      # Consultar el código fuente del proyecto
+      - usos : acciones/checkout@v4
+      # Escanear código usando Bearer CLI
+      - nombre : Ejecutar informe
+        id : informe
+        usos : portador/acción-portador@828eeb928ce2f4a7ca5ed57fb8b59508cb8c79bc
+        con :
+          clave API : $ { { secrets.BEARER_TOKEN } }
+          formato : sarif
+          output: results.sarif
+          exit-code: 0
+      # Upload SARIF file generated in previous step
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
